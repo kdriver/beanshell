@@ -6,5 +6,5 @@ import org.orekit.time.TimeScalesFactory;\n\
 import jsattrak.utilities.TLE;\n\n"
 
 sat_object = 'Satellite {varName} = new Satellite(\"{sat_text}\",\"{tle_line1}\",\"{tle_line2}\");\n\
-{varName}.setSatColor(new Color({colour}));\n\
+{varName}.setSatColor({colour});\n\
 NORSSTrack.AddSatelliteToList({varName});\n'
