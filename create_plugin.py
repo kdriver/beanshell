@@ -1,6 +1,6 @@
 """This module queries space-track for a list of norad id's.
 
-It generates beanshell script suitbal for use in NorssTrack plug-ins directory.
+It generates beanshell script suitable for use in NorssTrack plug-ins directory.
 """
 ##
 ##  Copyright Notice:
@@ -103,7 +103,7 @@ def get_tles_from_spacetrack(ids: dict) -> list:
             if resp.status_code != 200:
                 raise MyError(resp, "POST fail on login")
 
-            # create a comma seperated list of the norad_id's
+            # create a comma separated list of the norad_id's
             sat_list = ""
             first = True
             for norad_id in ids:
@@ -111,14 +111,14 @@ def get_tles_from_spacetrack(ids: dict) -> list:
                 first = False
 
             # print(requestNoradId.format(sat_list=sat_list))
-            # create the space-track quesry string by substituting in the list of
-            # norad_id's and sending in an http request
+            # create the space-track query string by substituting in the list of
+            # norad_id's and sending in an HTTP request
             resp = session.get(requestNoradId.format(sat_list=sat_list))
             if resp.status_code != 200:
                 print(resp)
                 raise MyError(resp, "GET fail on request ")
 
-            # use the json package to break the json formatted response text into a
+            # use the JSON package to break the JSON formatted response text into a
             # Python structure (a list of dictionaries)
             retData = json.loads(resp.text)
             session.close()
@@ -130,15 +130,17 @@ def get_tles_from_spacetrack(ids: dict) -> list:
 
 
 def create_bsh(st_data, satellites):
-    """Create a beanshell script based on the retrieved TLE."""
+    """Create a BeanShell script based on the retrieved TLEs."""
     bean_shell = ""
     header_text = beanshell_template_text.imports_text
     body_text = ""
+    # Iterate over the list of sattelites returned by space-track
     for sat in st_data:
         ident = sat["NORAD_CAT_ID"]
         name = sat["OBJECT_NAME"]
         tle_1 = sat["TLE_LINE1"]
         tle_2 = sat["TLE_LINE2"]
+        # now look up the colour and variable name from the local plug_in_sats
         colour = satellites[ident]["colour"]
         varName = satellites[ident]["var_name"]
         body_text = (
@@ -160,6 +162,8 @@ def create_bsh(st_data, satellites):
 skynet_colour = "Color.PINK"
 luch_colour = "Color.RED"
 sj_colour = "Color.YELLOW"
+
+#the list of satellites we want in our plug-in beanshell script
 plug_in_sats = {
     "49044": {"var_name": "iss_sat", "colour": "Color.GREEN"},
     "55841": {"var_name": "luch_sat", "colour": luch_colour},
