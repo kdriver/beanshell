@@ -10,4 +10,7 @@ To provide space-track credentials:
 
 Usage: python3 create_script.py
 
+output ./beanshell.bsh .    Move this file to the NT_Setup/plugins/Active directory and restart NORSTRack , 
+or refresh plugins from the NORSTrack PluginsMenu option
+
 Tested with python3.12
