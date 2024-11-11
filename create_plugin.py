@@ -84,7 +84,7 @@ else:
     print("No config found")
     sys.exit(1)
 
-online = False
+online = True
 
 
 def get_tles_from_spacetrack(ids: dict) -> list:
